@@ -1,26 +1,61 @@
 import { defineStore } from 'pinia';
 import { ref, onMounted } from 'vue';
-import { FetchProductsUseCase } from '../../../core/use-cases/fetch-products.use-case';
-import { ProductRepository } from '../../../core/repositories/product.repository';
-import type { Product } from '../../../core/models/product.model';
+import { ProductRepository } from '@/core/repositories/product.repository';
+import type { Product } from '@/core/models/product.model';
+import { ProductUseCase } from '../../../core/use-cases/fetch-products.use-case';
 
 export const useProductStore = defineStore('product', () => {
-  const products = ref<Product[]>([]); // Definindo o tipo para os produtos com o modelo Product
+  const products = ref<Product[]>([]);
+  const isLoading = ref<boolean>(true);
 
-  // Instância do repositório e use case
   const productRepository = new ProductRepository();
-  const fetchProductsUseCase = new FetchProductsUseCase(productRepository);
-
-  // Função para carregar os produtos
+  const productUseCase = new ProductUseCase(productRepository);
+  
   async function loadProducts() {
-    console.log('Carregando produtos...'); // ✅ Debug para ver se a função está sendo chamada
-    const data = await fetchProductsUseCase.execute();
-    console.log('Produtos carregados:', data); // ✅ Verifica se os dados chegaram
-    products.value = data;
+    console.log('🔍 Buscando produtos...');
+    isLoading.value = true;
+
+    try {
+      const data = await productUseCase.fetchProducts();
+      console.log('✅ Produtos carregados:', data);
+
+      if (data.length > 0) {
+        products.value = [...data]; 
+      } else {
+        console.warn('⚠️ Nenhum produto encontrado!');
+      }
+    } catch (error) {
+      console.error('❌ Erro ao carregar produtos:', error);
+    } finally {
+      isLoading.value = false;
+      console.log('🛑 Finalizado: isLoading =', isLoading.value);
+    }
   }
 
-  // Carrega os produtos assim que o componente for montado
-  onMounted(loadProducts); // ✅ Garante que os produtos serão carregados ao iniciar
+  async function addProduct(product: Product) {
+    await productUseCase.addProduct(product);
+    products.value.push(product); 
+  }
+  
+  async function editProduct(updatedProduct: Product) {
+    await productUseCase.updateProduct(updatedProduct);
+    const index = products.value.findIndex(p => p.id === updatedProduct.id);
+    if (index !== -1) {
+      products.value[index] = { ...updatedProduct };
+      products.value = [...products.value]; 
+    }
+  }
 
-  return { products, loadProducts };
+  async function removeProduct(productId: number) {
+    await productUseCase.deleteProduct(productId);
+    products.value = products.value.filter(p => p.id !== productId);
+  }
+
+  
+  onMounted(() => {
+    console.log('Chamando loadProducts() no onMounted()');
+    loadProducts();
+  });
+
+  return { products, isLoading, loadProducts, addProduct, editProduct, removeProduct };
 });
