@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { useProductStore } from '@/store/product.store';
+// src/presentation/components/ProductList.vue
+// Caminho relativo
+import { useProductStore } from '@/features/products/store/product.store';
 
 const productStore = useProductStore();
 const products = computed(() => productStore.products);
