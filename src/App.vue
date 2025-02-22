@@ -20,9 +20,6 @@ import { RouterView, RouterLink } from 'vue-router';
 
     <!-- 🔹 Conteúdo Principal -->
     <main class="flex-grow container mx-auto p-6 text-center">
-      <h1 class="text-3xl font-bold text-blue-600 bg-red-200 p-4">
-        Tailwind CSS Funcionando! 🎉
-      </h1>
 
       <RouterView />
     </main>
