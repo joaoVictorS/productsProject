@@ -1,18 +1,26 @@
-import { ProductRepository } from "../repositories/product.repository";
+import { ProductRepository } from '../repositories/product.repository';
 import type { Product } from '../models/product.model';
 
-export class FetchProductsUseCase {
+export class ProductUseCase {
   private productRepository: ProductRepository;
 
   constructor(productRepository: ProductRepository) {
     this.productRepository = productRepository;
   }
 
-  async execute(): Promise<Product[]> {
-    const products = await this.productRepository.fetchProducts();
-    
-    // Aqui você pode adicionar lógica de formatação, verificação, ou manipulação de dados se necessário
-    
-    return products;
+  async fetchProducts(): Promise<Product[]> {
+    return await this.productRepository.fetchProducts();
+  }
+
+  async addProduct(product: Product): Promise<void> {
+    return await this.productRepository.addProduct(product);
+  }
+
+  async updateProduct(product: Product): Promise<void> {
+    return await this.productRepository.updateProduct(product);
+  }
+
+  async deleteProduct(productId: number): Promise<void> {
+    return await this.productRepository.deleteProduct(productId);
   }
 }
