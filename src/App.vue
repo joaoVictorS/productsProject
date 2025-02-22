@@ -1,30 +1,35 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterView, RouterLink } from 'vue-router';
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
-</template>
+  <div class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
+    <!-- 🔹 Header Melhorado -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between items-center shadow-md">
+      <!-- 🔹 Logo / Nome da Empresa -->
+      <div class="text-2xl font-bold tracking-wide">
+        Grupo Digi
+      </div>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+      <!-- 🔹 Menu de Navegação -->
+      <div class="flex space-x-6">
+        <RouterLink to="/" class="hover:text-yellow-300 transition">🏠 Home</RouterLink>
+        <RouterLink to="/cart" class="hover:text-yellow-300 transition">🛒 Carrinho</RouterLink>
+      </div>
+    </nav>
+
+    <!-- 🔹 Conteúdo Principal -->
+    <main class="flex-grow container mx-auto p-6 text-center">
+      <h1 class="text-3xl font-bold text-blue-600 bg-red-200 p-4">
+        Tailwind CSS Funcionando! 🎉
+      </h1>
+
+      <RouterView />
+    </main>
+
+    <!-- 🔹 Rodapé -->
+    <footer class="bg-gray-200 text-center p-4 mt-6">
+      <p>&copy; 2024 - Minha Loja Vue 3</p>
+    </footer>
+  </div>
+</template>
