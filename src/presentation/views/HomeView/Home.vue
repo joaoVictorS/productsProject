@@ -6,5 +6,5 @@
 </template>
 
 <script setup>
-import ProductList from '@/presentation/components/ProductList.vue'; // Usando o alias '@' corretamente
+import ProductList from '@/presentation/views/HomeView/components/ProductList.vue'; // Usando o alias '@' corretamente
 </script>

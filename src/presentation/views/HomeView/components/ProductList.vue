@@ -98,7 +98,7 @@
 import { computed, ref } from 'vue'
 import { useProductStore } from '@/features/products/store/product.store'
 import { useCartStore } from '@/features/cart/store/cart.store'
-import ProductModal from '@/presentation/components/ProductModal.vue'
+import ProductModal from './ProductModal.vue'
 import ConfirmModal from '@/presentation/components/ConfirmModal.vue'
 
 const productStore = useProductStore()
